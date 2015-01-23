@@ -1,0 +1,73 @@
+VAGRANTFILE_API_VERSION = '2'
+Vagrant.require_version '>= 1.6.3'
+
+def require_plugin(name)
+  unless Vagrant.has_plugin?(name)
+    raise <<-EOT.strip
+      #{name} plugin required. Please run: "vagrant plugin install #{name}"
+    EOT
+  end
+end
+
+require_plugin 'vagrant-triggers'
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.define 'boot2docker'
+  config.vm.box = 'parallels/boot2docker'
+
+  config.vm.provider 'vmware_fusion' do |v|
+    v.name = 'boot2docker'
+    v.check_guest_tools = false
+    v.memory = (`sysctl -n hw.memsize`).to_i / 2**20 * 2 / 3 / 4 * 4
+    v.cpus = (`sysctl -n hw.ncpu`).to_i * 2 / 3
+    v.optimize_power_consumption = false
+    unless `prlctl list --info boot2docker | grep hdd0`
+        v.customize ['set', :id, '--device-add', 'hdd']
+    end
+  end
+
+  config.vm.network 'private_network', ip: '10.10.10.10'
+
+  config.ssh.forward_agent = true
+
+#  {
+#       80 =>    80  # web
+#       8080 =>    8080  # web
+#       # ... other ports
+#  }.each do |guest, host|
+#    config.vm.network :forwarded_port, guest: guest, host: host
+#  end
+
+  config.vm.synced_folder(
+    ENV['HOME'], ENV['HOME'],
+    type: 'nfs',
+    nfs_udp: true,
+    mount_options: %w[actimeo=2],
+    bsd__nfs_options: %w[alldirs maproot=root:wheel]
+  )
+
+  # fix busybox/udhcpc issue
+  config.vm.provision :shell do |s|
+    s.inline = <<-EOT
+      if ! grep -qs ^nameserver /etc/resolv.conf; then
+        sudo /sbin/udhcpc
+      fi
+      cat /etc/resolv.conf
+    EOT
+  end
+
+  # adjust datetime after suspend and resume
+  config.vm.provision :shell do |s|
+    s.inline = <<-EOT
+      sudo /usr/local/bin/ntpclient -s -h pool.ntp.org
+      date
+    EOT
+  end
+
+  # ssh connection for agent forwarding
+  config.trigger.after [:up, :reload] do
+    command = %Q(vagrant ssh -- -t 'ln -sf `ls -d /tmp/ssh*/* | head -n 1` /tmp/authsock; sh')
+    pid = Process.spawn(command, out: '/dev/null', err: '/dev/null')
+    Process.detach(pid)
+  end
+end

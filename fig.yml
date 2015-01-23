@@ -1,0 +1,13 @@
+xnlogic:
+  image: xn-torquebox
+  links:
+   - volume
+  ports:
+   - "8080:8080"
+   - "9990:9990"
+  environment: 
+   XN_CLIENT: lightmesh
+volume:
+  image: busybox
+  volumes: 
+   - $HOME/xn-docker/xn_apps:/opt/xn_apps
