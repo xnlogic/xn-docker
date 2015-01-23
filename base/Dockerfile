@@ -1,8 +1,9 @@
 FROM phusion/baseimage:latest
 
 ENV HOME /root
-ENV PATH $HOME/bin:$PATH
+ENV PATH $HOME/bin:$HOME/xn/cli-utils/bin:$PATH
 ENV XN_HOME /opt/xn_apps
+ENV XN_DEV true
 
 VOLUME $XN_HOME
 
