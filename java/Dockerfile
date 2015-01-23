@@ -1,9 +1,8 @@
-#
-# Oracle Java 7 Dockerfile
-#
-
-# Pull base image.
 FROM xn-base
+
+ENV JAVA_OPTS -XX:MaxPermSize=160m -Xmx2g
+ENV JAVA_HOME /usr/lib/jvm/java-7-oracle
+ENV PATH $JAVA_HOME:$PATH
 
 # Install Java.
 RUN \
@@ -13,13 +12,6 @@ RUN \
     apt-get install -qq oracle-java7-installer && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/cache/oracle-jdk7-installer
-
-# Define working directory.
-WORKDIR /data
-
-# Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-7-oracle
-ENV PATH $JAVA_HOME:$PATH
 
 CMD ["/sbin/my_init"]
 
