@@ -1,4 +1,4 @@
-FROM xn-datomic
+FROM xnlogic/datomic
 
 ENV TORQUEBOX_VERSION 3.1.1
 ENV DAEMON torquebox
