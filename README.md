@@ -1,6 +1,6 @@
-# xn Docker java image 
+# xn Docker jruby image 
 
-Built upon [xnlogic/base](https://registry.hub.docker.com/u/xnlogic/base/) and Oracle Java
+Built upon [xnlogic/java](https://registry.hub.docker.com/u/xnlogic/java/)
 
 [Dockerfile](https://raw.githubusercontent.com/xnlogic/docker-java/master/Dockerfile)
 
