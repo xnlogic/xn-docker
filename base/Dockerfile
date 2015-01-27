@@ -5,8 +5,6 @@ ENV PATH $HOME/bin:$HOME/xn/cli-utils/bin:$PATH
 ENV XN_HOME /opt/xn_apps
 ENV XN_DEV true
 
-VOLUME $XN_HOME
-
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
