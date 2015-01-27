@@ -1,4 +1,4 @@
-FROM xn-java
+FROM xnlogic/java
 
 ENV JRUBY_VERSION 1.7.18
 ENV JRUBY_OPTS --dev

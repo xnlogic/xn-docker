@@ -1,4 +1,4 @@
-FROM xn-base
+FROM xnlogic/base
 
 ENV JAVA_OPTS -XX:MaxPermSize=160m -Xmx2g
 ENV JAVA_HOME /usr/lib/jvm/java-7-oracle
