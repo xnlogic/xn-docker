@@ -1,4 +1,4 @@
-FROM xn-java
+FROM xnlogic/java
 
 ENV HOME /root
 ENV DATOMIC_VERSION 0.9.4755
