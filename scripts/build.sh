@@ -2,6 +2,6 @@
 
 set -e
 
-for i in base java jruby datomic torquebox; do
-    docker build -t xn-${i} $i
+for i in jruby ; do
+    docker build -t xnlogic/${i} $i
 done
