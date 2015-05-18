@@ -1,3 +1,5 @@
+# This is https://github.com/qsys/debian-datomic-free but debian + java-oracle
+
 FROM claudineimatos/java-oracle
 
 RUN apt-get update && apt-get install -y \
