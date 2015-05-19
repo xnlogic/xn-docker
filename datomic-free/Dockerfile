@@ -21,7 +21,8 @@ RUN echo "Be sure you agree with the license of Datomic Free at https://my.datom
 
 EXPOSE 4334 4335 4336
 
+COPY run.sh /usr/share/datomic/run.sh
 COPY transactor.properties /etc/datomic/xn-free.properties
 
 WORKDIR /usr/share/datomic
-CMD /usr/share/datomic/bin/transactor /etc/datomic/xn-free.properties
+CMD /usr/share/datomic/run.sh
