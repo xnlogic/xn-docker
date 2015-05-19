@@ -1,0 +1,27 @@
+api-data:
+  # image: xnlogic/api-data
+  build: api-data/
+datomic-free:
+  # image: xnlogic/datomic-free
+  build: datomic-free/
+  volumes_from:
+    - api-data
+nginx:
+  build: nginx
+  link:
+    - api-dev
+    - auth
+  ports:
+    - 80:80
+  
+
+  #api-dev:
+  #  build: .
+  #  volumes_from:
+  #    - api-data
+  #  links:
+  #    - datomic-free:datomic
+  #auth:
+  #  build: auth/
+  #  volumes_from:
+  #    - api-data
