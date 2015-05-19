@@ -15,13 +15,13 @@ RUN (curl -L https://my.datomic.com/downloads/free/${DATOMIC_VERSION} -o /tmp/da
      rm /tmp/datomic-free.zip) 
 RUN ln -s /usr/share/datomic-free-${DATOMIC_VERSION} /usr/share/datomic &&\
     ln -s /usr/share/datomic/bin/transactor /usr/bin/transactor &&\
-    ln -s /usr/share/datomic/conf /etc/datomic &&\
-    ln -s /usr/share/datomic/data /var/lib/datomic
+    ln -s /usr/share/datomic/conf /etc/datomic
 
 RUN echo "Be sure you agree with the license of Datomic Free at https://my.datomic.com/datomic.com/datomic-free-edition-license.html"
 
-VOLUME ["/etc/datomic", "/var/lib/datomic"]
 EXPOSE 4334 4335 4336
 
+COPY transactor.properties /etc/datomic/xn-free.properties
+
 WORKDIR /usr/share/datomic
-#ENTRYPOINT ["/usr/share/datomic/bin/transactor"]
+CMD /usr/share/datomic/bin/transactor /etc/datomic/xn-free.properties
