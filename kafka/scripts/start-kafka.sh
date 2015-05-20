@@ -41,10 +41,15 @@ if [ ! -z "$ZK_CHROOT" ]; then
     sed -r -i "s/(zookeeper.connect)=(.*)/\1=localhost:2181\/$ZK_CHROOT/g" $KAFKA_HOME/config/server.properties
 fi
 
-# Allow specification of log retention policies
+sed -r -i "s/(log.dirs)=(.*)/\1=\/opt\/xn_apps\/kafka-logs/g" $KAFKA_HOME/config/server.properties
+
+# Allow specification of log retention policies and default to 10 weeks
 if [ ! -z "$LOG_RETENTION_HOURS" ]; then
     echo "log retention hours: $LOG_RETENTION_HOURS"
     sed -r -i "s/(log.retention.hours)=(.*)/\1=$LOG_RETENTION_HOURS/g" $KAFKA_HOME/config/server.properties
+else
+    echo "log retention hours: 1680 (10 weeks)"
+    sed -r -i "s/(log.retention.hours)=(.*)/\1=1680/g" $KAFKA_HOME/config/server.properties
 fi
 if [ ! -z "$LOG_RETENTION_BYTES" ]; then
     echo "log retention bytes: $LOG_RETENTION_BYTES"

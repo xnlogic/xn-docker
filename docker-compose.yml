@@ -6,10 +6,16 @@ datomicfree:
   build: datomic-free/
   volumes_from:
     - apidata
+kafka:
+  # image: xnlogic/kafka
+  build: kafka/
+  volumes_from:
+    - apidata
 apidev:
   image: busybox
   links:
     - datomicfree:datomic
+    - kafka:kafka
   command: tail -f /dev/null
 auth:
   image: busybox
