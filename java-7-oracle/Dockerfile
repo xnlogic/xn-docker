@@ -13,6 +13,7 @@ echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" >> 
 
 ### INSTALL ORACLE JAVA ###
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && \
-  apt-get update && apt-get install -y oracle-java7-installer
-
-RUN rm -rf /var/cache/apt/*
+  apt-get update && \
+  apt-get install -y oracle-java7-installer && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm -rf /var/cache/apt/*
